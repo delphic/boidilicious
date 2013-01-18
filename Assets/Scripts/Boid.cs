@@ -6,10 +6,10 @@ public class Boid : MonoBehaviour
 	#region Declarations
 	
 	private float _mass = 2.0f;
-	private Vector2 _velocity = Vector2.zero; // Going to handle velocity myself for now, arguably should use a rigidbody component
-	private float _maxSpeed = 10.0f;
-	private float _maxForce = 0.1f;
-	private float _maxTurnRate = 0.01f;
+	private Vector2 _velocity = Vector2.zero;	// Going to handle velocity myself for now, arguably should use a rigidbody component
+	private float _maxSpeed = 1.0f;
+	//private float _maxForce = 0.1f; 			// Future Variables!
+	//private float _maxTurnRate = 0.01f;		// Future Variables!
 	private SteeringBehaviours _steeringBehaviours;
 	
 	// Game World Access to go here!
@@ -17,6 +17,11 @@ public class Boid : MonoBehaviour
 	#endregion
 	
 	#region Public Accessors
+	
+	public Vector2 Heading
+	{
+		get { return this.transform.forward; }
+	}
 	
 	public Vector2 Velocity
 	{
