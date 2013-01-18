@@ -47,7 +47,7 @@ public class Tetrahedon : MonoBehaviour
 		var uvs = new List<Vector2>();
 		foreach(var vertex in vertices)
 		{
-			uvs.Add(new Vector2(vertex.x, vertex.z)); // HACK doesn't work for the most part.
+			uvs.Add(new Vector2(vertex.x, vertex.y));
 		}
 		
 		var triangles = new List<int> { 0,2,1, 0,3,2, 2,3,1, 1,3,0 };
