@@ -1,10 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Boid.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Tetrahedon.cs">
     <Files>
-      <File FileName="Assets\Scripts\Boid.cs" Line="14" Column="2" />
-      <File FileName="Assets\Scripts\SteeringBehaviours.cs" Line="24" Column="30" />
-      <File FileName="Assets\Scripts\SingleBehaviourSteeringController.cs" Line="19" Column="1" />
+      <File FileName="Assets\Scripts\Boid.cs" Line="19" Column="26" />
+      <File FileName="Assets\Scripts\SteeringBehaviours.cs" Line="13" Column="2" />
+      <File FileName="Assets\Scripts\SingleBehaviourSteeringController.cs" Line="38" Column="47" />
+      <File FileName="Assets\Scripts\ISteeringController.cs" Line="5" Column="22" />
+      <File FileName="Assets\Scripts\Tetrahedon.cs" Line="2" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

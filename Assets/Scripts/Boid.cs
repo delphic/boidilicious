@@ -18,6 +18,11 @@ public class Boid : MonoBehaviour
 	
 	#region Public Accessors
 	
+	public ISteeringController Controller
+	{
+		get { return this._steeringController; }
+	}
+	
 	public Vector2 Heading
 	{
 		get { return this.transform.forward; }
