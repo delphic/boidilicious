@@ -10,7 +10,7 @@ public class Boid : MonoBehaviour
 	private float _maxSpeed = 1.0f;
 	//private float _maxForce = 0.1f; 			// Future Variables!
 	//private float _maxTurnRate = 0.01f;		// Future Variables!
-	private SteeringBehaviours _steeringBehaviours;
+	private ISteeringController _steeringController;
 	
 	// Game World Access to go here!
 	
@@ -44,13 +44,14 @@ public class Boid : MonoBehaviour
 	
 	void Awake()
 	{
-		this._steeringBehaviours = new SteeringBehaviours(this);
+		this._steeringController = new SingleBehaviourSteeringController(new SteeringBehaviours(this));
 	}
 	
 	void Update () 
 	{
 		// Calculate updated Position
-		var steeringForce = this._steeringBehaviours.Calculate();
+		var steeringForce = this._steeringController.Calculate();
+		
 		var acceleration = steeringForce/_mass;
 		this._velocity = this._velocity + (acceleration * Time.deltaTime);
 		this._velocity = Vector2.ClampMagnitude(_velocity, _maxSpeed);

@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Boid.cs" />
+     <Compile Include="Assets\Scripts\ISteeringController.cs" />
+     <Compile Include="Assets\Scripts\SingleBehaviourSteeringController.cs" />
      <Compile Include="Assets\Scripts\SteeringBehaviours.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

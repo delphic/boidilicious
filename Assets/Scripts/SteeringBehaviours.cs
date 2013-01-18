@@ -14,10 +14,11 @@ public class SteeringBehaviours
 	private const float TURN_AROUND_COEFFICIENT = 0.5f;
 	private const float DECELERATION_TWEAKER = 100.0f; 
 	
-	private float _panicDistance = 30.0f;
-	private float _wanderRadius = 8.0f;
-	private float _wanderDistance = 8.0f;
-	private float _wanderJitter = 1.5f;
+	public float panicDistance = 30.0f;
+	public float wanderRadius = 8.0f;
+	public float wanderDistance = 8.0f;
+	public float wanderJitter = 1.5f;
+	
 	private Vector2 _wanderTarget = Vector2.zero;
 	
 	private readonly Boid _boid;
@@ -31,7 +32,7 @@ public class SteeringBehaviours
 	
 	#region Steering Behaviours
 	
-	Vector2 Arrive(Vector2 targetPosition, Deceleration deceleration)
+	public Vector2 Arrive(Vector2 targetPosition, Deceleration deceleration)
 	{
 		var toTarget = (targetPosition - this._boid.Position);
 		var distanceToTarget = toTarget.magnitude;
@@ -47,17 +48,17 @@ public class SteeringBehaviours
 		return Vector2.zero;
 	}
 	
-	Vector2 Evade(Boid scaryBoid)
+	public Vector2 Evade(Boid scaryBoid)
 	{
 		var toPursuer = scaryBoid.Position - this._boid.Position;
 		var lookAheadTime = toPursuer.magnitude / (this._boid.MaxSpeed + scaryBoid.Velocity.magnitude);
 		return Flee(scaryBoid.Position + scaryBoid.Velocity * lookAheadTime);
 	}
 	
-	Vector2 Flee(Vector2 scarePoint)
+	public Vector2 Flee(Vector2 scarePoint)
 	{
 		// Only flee if within panic distance
-		if((this._boid.Position - scarePoint).sqrMagnitude > _panicDistance*_panicDistance)
+		if((this._boid.Position - scarePoint).sqrMagnitude > panicDistance*panicDistance)
 		{
 			return Vector2.zero;
 		}
@@ -66,7 +67,7 @@ public class SteeringBehaviours
 		return desiredVelocity - this._boid.Velocity;
 	}
 	
-	Vector2 Pursuit(Boid targetBoid)
+	public Vector2 Pursuit(Boid targetBoid)
 	{
 		var toTarget = targetBoid.Position - this._boid.Position;
 		var relativeHeadingAngle = Vector2.Dot(this._boid.Heading, targetBoid.Heading);
@@ -82,32 +83,32 @@ public class SteeringBehaviours
 		return Seek(targetBoid.Position + targetBoid.Velocity * lookAheadTime);
 	}
 	
-	Vector2 Seek(Vector2 targetPosition)
+	public Vector2 Seek(Vector2 targetPosition)
 	{
 		var desiredVelocity = (targetPosition - this._boid.Position).normalized * this._boid.MaxSpeed;
 		return desiredVelocity - this._boid.Velocity;
 	}
 	
-	Vector2 Wander()
+	public Vector2 Wander()
 	{
 		// Jitter the wander target - this might be better if we moved around the circle, rather than randomly and then projected back to the circle
-		_wanderTarget = _wanderTarget + new Vector2(2*(Random.value-0.5f)*_wanderJitter, 2*(Random.value-0.5f)*_wanderJitter);
+		_wanderTarget = _wanderTarget + new Vector2(2*(Random.value-0.5f)*wanderJitter, 2*(Random.value-0.5f)*wanderJitter);
 		// Project onto circle
-		_wanderTarget = _wanderRadius * _wanderTarget.normalized;
+		_wanderTarget = wanderRadius * _wanderTarget.normalized;
 		// Project in front of boid by _wanderDistance 
-		var worldTarget = _wanderTarget + _wanderDistance * this._boid.Heading + this._boid.Position;
+		var worldTarget = _wanderTarget + wanderDistance * this._boid.Heading + this._boid.Position;
 		/// Steer towards it
 		return worldTarget - this._boid.Position;	
 	}
 	
-	#endregion
-	
-	public Vector2 Calculate()
+	public void ConfigureWanderSettings(float wanderRadius, float wanderDistance, float wanderJitter)
 	{
-		// Type the Behaviour you wish to test here!
-		// TODO: UI interface for testing behaviours
-		return Wander();
+		this.wanderRadius = wanderRadius;
+		this.wanderDistance = wanderDistance;
+		this.wanderJitter = wanderJitter;
 	}
+	
+	#endregion
 	
 	#region Helper Functions
 	
