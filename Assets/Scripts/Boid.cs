@@ -5,6 +5,7 @@ public class Boid : MonoBehaviour
 {
 	#region Declarations
 	
+	public SteeringControllers initialSteeringControllerType = SteeringControllers.SingleBehaviour; // Controller Injection, to be used with prefabs only
 	private float _mass = 2.0f;
 	private Vector2 _velocity = Vector2.zero;	// Going to handle velocity myself for now, arguably should use a rigidbody component
 	private float _maxSpeed = 1.0f;
@@ -43,20 +44,30 @@ public class Boid : MonoBehaviour
 		get { return this._maxSpeed; }
 	}
 	
+	public float Mass
+	{
+		get { return this._mass; }
+	}
+	
 	#endregion
 	
 	#region MonoBehaviour Members
 	
 	void Awake()
 	{
-		this._steeringController = new SingleBehaviourSteeringController(new SteeringBehaviours(this));
+		// TODO: ideally would outsource this creation
+		switch(initialSteeringControllerType)
+		{
+			case SteeringControllers.SingleBehaviour:
+				this._steeringController = new SingleBehaviourSteeringController(new SteeringBehaviours(this));
+				break;
+		}
 	}
 	
 	void Update () 
 	{
 		// Calculate updated Position
 		var steeringForce = this._steeringController.Calculate();
-		
 		var acceleration = steeringForce/_mass;
 		this._velocity = this._velocity + (acceleration * Time.deltaTime);
 		this._velocity = Vector2.ClampMagnitude(_velocity, _maxSpeed);
@@ -73,6 +84,23 @@ public class Boid : MonoBehaviour
 		
 		// Update position
 		this.transform.position = newPosition;
+	}
+	
+	#endregion
+	
+	#region Set Methods 
+	// These are for variables we're only exposing for the purposes of playing with in realtime to 
+	// settle upon a feel - ideally they'd be completely private, hence I'm using methods rather
+	// than public varaiables or accessors
+	
+	void SetMass(float mass)
+	{
+		this._mass = mass;
+	}
+	
+	void SetMaxSpeed(float maxSpeed)
+	{
+		this._maxSpeed = maxSpeed;
 	}
 	
 	#endregion

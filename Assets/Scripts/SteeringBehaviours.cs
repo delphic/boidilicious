@@ -6,15 +6,15 @@ public class SteeringBehaviours
 	
 	public enum Deceleration 
 	{
-		Slow = 3,
+		Slow = 1,
 		Normal = 2,
-		Fast = 1,
+		Fast = 3,
 	}
 	
 	private const float TURN_AROUND_COEFFICIENT = 0.5f;
-	private const float DECELERATION_TWEAKER = 100.0f; 
+	private const float DECELERATION_TWEAKER = 150.0f;
 	
-	public float panicDistance = 30.0f;
+	public float panicDistance = 100.0f;
 	public float wanderRadius = 8.0f;
 	public float wanderDistance = 8.0f;
 	public float wanderJitter = 1.5f;
@@ -42,10 +42,10 @@ public class SteeringBehaviours
 			var speed = distanceToTarget / ((float)deceleration * DECELERATION_TWEAKER);
 			speed = Mathf.Min(speed, this._boid.MaxSpeed); 
 			var desiredVelocity = toTarget * speed / distanceToTarget;
-			return desiredVelocity - this._boid.Velocity;
+			return this._boid.Mass*(desiredVelocity - this._boid.Velocity);
 		}
 		
-		return Vector2.zero;
+		return this._boid.Mass*(Vector2.zero - this._boid.Velocity);
 	}
 	
 	public Vector2 Evade(Boid scaryBoid)
